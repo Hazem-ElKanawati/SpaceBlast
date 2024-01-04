@@ -57,6 +57,7 @@ int main()
 	
 	int spaceshiplifecounter = 0;
 	int enemylifecounter = 0;
+	int enemy2lifecounter = 0;
 	int x_enemy1 = 40;
 	int y_enemy1 = 60;
 	int z = 1;
@@ -67,7 +68,10 @@ int main()
 	
 	int y_enemyblaster1= y_enemy1 + 100;
 	int x_enemyblaster1 = x_enemy1 + 37;
+	int x_enemyblaster2 = x_enemy2 + 37;
+	int y_enemyblaster2 = y_enemy1 + 100;
 	int difference = 100;
+	int difference2 = 100;
 	int differenceforenemyline = 100;
 	int zoomcounter = 0;
 	
@@ -97,6 +101,8 @@ int main()
 	{
 		int x_line2 = x_spaceship + difference;
 		//differenceforenemyline = differenceforenemyline - 20;
+		int x_line1 = x_enemy2 + difference2;
+		
 		int x_line = x_enemy1 + differenceforenemyline;
 		grfk.setDrawingColor(RED);
 		grfk.beginDraw();
@@ -139,10 +145,19 @@ int main()
 			z *= -1;
 		grfk.drawImage(enemy1, x_enemy1+=z, y_enemy1, offwhite2);
 		grfk.drawImage(enemyblaster, x_enemyblaster1, y_enemyblaster1++, BROWN);
+		grfk.drawImage(enemyblaster, x_enemyblaster2, y_enemyblaster2++, BROWN);
+		grfk.drawImage(enemy2, x_enemy2 += t, y_enemy2, BLACK);
+
 		if (y_enemyblaster1 > y_down && y_enemy1 > 0)
 		{
 			y_enemyblaster1 = y_enemy1 + 125;
 			x_enemyblaster1 = x_enemy1 + 45;
+
+		}
+		if (y_enemyblaster2 > y_down && y_enemy2 > 0)
+		{
+			y_enemyblaster2 = y_enemy2 + 125;
+			x_enemyblaster2 = x_enemy2 + 45;
 
 		}
 		if (x_enemy1 > x_right)
@@ -153,9 +168,10 @@ int main()
 		}
 		
 		grfk.drawLine(x_enemy1, y_enemy1 - 20, x_line, y_enemy1 - 20);
+		grfk.drawLine(x_enemy2, y_enemy2 - 20, x_line1, y_enemy2 - 20);
 		grfk.drawLine(x_spaceship + 12, y_spaceship + 120, x_line2 + 12, y_spaceship + 120);
 
-		grfk.drawImage(enemy2, x_enemy2+=t, y_enemy2, BLACK);
+		
 		if (x_enemy2 == grfk.getWindowWidth() - 109 || x_enemy2 == (grfk.getWindowWidth() / 2) + 20)
 			t *= -1;
 
@@ -174,11 +190,37 @@ int main()
 				y_enemy1 = -200;
 			}
 		}
+		if ((x_blast) >= (x_enemy2) && (x_blast) <= (x_enemy2 + 70) && y_blast >= (y_enemy2 - 50) && y_blast <= (y_enemy2 + 50))
+		{
+			enemy2lifecounter++;
+			y_blast = y_spaceship - 20;
+			x_blast = x_spaceship + 55;
+			//x_line > x_enemy1
+
+			difference2 -= 10;
+
+			if (enemy2lifecounter == 10)
+			{
+				x_enemy2 = -200;
+				y_enemy2 = -200;
+			}
+		}
 		if ((x_enemyblaster1) >= (x_spaceship) && (x_enemyblaster1) <= (x_spaceship + 100) && y_enemyblaster1 >= (y_spaceship - 50) && y_enemyblaster1 <= (y_spaceship + 50))
 		{
 			spaceshiplifecounter++;
 			y_enemyblaster1 = y_enemy1 + 60;
 			x_enemyblaster1 = x_enemy1 + 40;
+			difference = difference - 20;
+			if (spaceshiplifecounter == 5)
+			{
+				break;
+			}
+		}
+		if ((x_enemyblaster2) >= (x_spaceship) && (x_enemyblaster2) <= (x_spaceship + 100) && y_enemyblaster2 >= (y_spaceship - 50) && y_enemyblaster2 <= (y_spaceship + 50))
+		{
+			spaceshiplifecounter++;
+			y_enemyblaster2 = y_enemy2 + 60;
+			x_enemyblaster2 = x_enemy2 + 40;
 			difference = difference - 20;
 			if (spaceshiplifecounter == 5)
 			{
